@@ -25,6 +25,10 @@ blogsRouter.post('/', async (request, response) => {
     'likes': body.likes,
     'user': user._id
   })
+
+  if (!blog.title || !blog.url) {
+    return response.status(400).json({ error: 'title or url missing' }).end()
+  }
   
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
